@@ -22,7 +22,7 @@ function App() {
     const[iskmperhour,setIskmperhour]=useState(true);
     const[ismm,setIsmm]=useState(true);
  
-
+/* Get api*/
   useEffect(()=>{
     if(!city)return;
     const getData=async()=>{
@@ -51,6 +51,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     getData();
     
   },[city])
+  /* Functions*/
   function getWeekDay(index){
    const dateStr=weather.hourly.time[index]
    const date=dateStr.split("T")[0];
@@ -96,7 +97,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     
       
       <div id="top-part">
+        {/* Top left image-logo */}
      <img  id="weather-logo"src={logo}></img>
+     {/* Top right button "Units" */}
      <button id='btn-units'
      onClick={toggleUnitsDropdown}
      >
@@ -117,7 +120,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         
      </div>
      </div>
-     
+      {/* Search field */}
       <h1>How's the sky looking today?</h1>
       <div id="search-holder">
       <img id="search-img"src={search}></img>
@@ -131,6 +134,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     >Search</button>
     </div>
       <div id="main-container">
+        {/* Today Card */}
     <div id="left-part">
     <img id="background-img" src={background}></img>
     <div id="city-date-holder">
@@ -159,6 +163,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     )}
     
     </div>
+    {/* Conditions */}
     <div id="conditions-holder">
       <div className='condition'>
         {weather&&(
@@ -199,6 +204,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
        
         </div>
     </div>
+    {/* Daily */}
     <h4>Daily forecast</h4>
     <div id='daily-forecast'>
       <div className='day-holder'>
@@ -263,6 +269,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     </div>
     </div>
     <div id="right-part">
+      {/* Hourly */}
     <div id="hourly-forecast">
       <div id="head4-select-holder">
       <h4>Hourly forecast</h4>
