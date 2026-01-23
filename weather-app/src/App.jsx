@@ -35,8 +35,11 @@ function App() {
         }
      
         const{latitude,longitude}=geo.results[0];
-const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m,precipitation,weathercode&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`;
-
+const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}
+&current=temperature_2m,wind_speed_10m,weathercode
+&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m,weathercode
+&daily=weathercode,precipitation_sum
+&timezone=auto`;
 
       const data=await fetch(url).then(r=>r.json());
        setWeather(data);
@@ -190,7 +193,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         {weather&&(
           <div>
  <p>Precipitation</p>
-       <h3>{ismm ? `${weather.current.precipitation}mm` : `${((weather.current.precipitation)/25).toFixed(1)}in` }</h3>
+       <h3>{ismm ? `${weather.daily.precipitation_sum[0]}mm` : `${((weather.daily.precipitation_sum[0])/25).toFixed(1)}in` }</h3>
           </div>
         )}
        
@@ -202,7 +205,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         
         <p>{weather&&getWeekDay(0)}</p>
          {weather&&(
-        <img src={getWeatherImg(weather.current.weathercode)}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[0])}></img>
          )}
         <div className="daily-degrees">
           <p>{iscelsius ? `${weather&&getMaxTemp(0,24)}°` : `${((weather&&getMaxTemp(0,24) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -211,7 +214,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         </div>
       <div className='day-holder'>
         <p>{weather&&getWeekDay(24)}</p>
-        <img src={sunny}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[1])}></img>
         <div className="daily-degrees">
          <p>{iscelsius ? `${weather&&getMaxTemp(24,48)}°` : `${((weather&&getMaxTemp(24,48) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(24,48)}°` : `${((weather&&getMinTemp(24,48) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -219,7 +222,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         </div>
       <div className='day-holder'>
         <p>{weather&&getWeekDay(48)}</p>
-        <img src={sunny}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[2])}></img>
         <div className="daily-degrees">
           <p>{iscelsius ? `${weather&&getMaxTemp(48,72)}°` : `${((weather&&getMaxTemp(48,72) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(48,72)}°` : `${((weather&&getMinTemp(48,72) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -227,7 +230,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         </div>
       <div className='day-holder'>
         <p>{weather&&getWeekDay(72)}</p>
-        <img src={sunny}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[3])}></img>
         <div className="daily-degrees"> 
           <p>{iscelsius ? `${weather&&getMaxTemp(72,96)}°` : `${((weather&&getMaxTemp(72,96) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(72,96)}°` : `${((weather&&getMinTemp(72,96) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -235,7 +238,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         </div>
       <div className='day-holder'>
         <p>{weather&&getWeekDay(96)}</p>
-        <img src={sunny}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[4])}></img>
         <div className="daily-degrees">
         <p>{iscelsius ? `${weather&&getMaxTemp(96,120)}°` : `${((weather&&getMaxTemp(96,120) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(96,120)}°` : `${((weather&&getMinTemp(96,120) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -243,7 +246,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='day-holder'>
         <p>{weather&&getWeekDay(120)}</p>
-        <img src={sunny}></img>
+        <img src={getWeatherImg(weather.daily.weathercode[5])}></img>
         <div className="daily-degrees">
         <p>{iscelsius ? `${weather&&getMaxTemp(120,144)}°` : `${((weather&&getMaxTemp(120,144) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(120,144)}°` : `${((weather&&getMinTemp(120,144) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -251,7 +254,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='day-holder'>
        <p>{weather&&getWeekDay(144)}</p> 
-       <img src={sunny}></img>
+       <img src={getWeatherImg(weather.daily.weathercode[6])}></img>
        <div className="daily-degrees">
         <p>{iscelsius ? `${weather&&getMaxTemp(144,168)}°` : `${((weather&&getMaxTemp(144,168) * 9) / 5 + 32).toFixed(1)}°`}</p>
           <p>{iscelsius ? `${weather&&getMinTemp(144,168)}°` : `${((weather&&getMinTemp(144,168) * 9) / 5 + 32).toFixed(1)}°`}</p>
@@ -267,7 +270,10 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       <div id="main-hourly-holder">
       <div className='hourly-holder'>
         <div className='f'>
-      <img src={sunny}></img>
+          {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[0])}></img>
+          )}
+      
         12AM
       </div>
       {weather&&(
@@ -279,7 +285,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='hourly-holder'>
           <div className='f'>
-      <img src={sunny}></img>
+      {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[3])}></img>
+          )}
         3AM
       </div>
        {weather&&(
@@ -291,7 +299,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
         </div> 
       <div className='hourly-holder'>
           <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[6])}></img>
+          )}
         6AM
       </div>
         
@@ -303,7 +313,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='hourly-holder'>
           <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[9])}></img>
+          )}
         9AM
       </div>
          {weather&&(
@@ -314,7 +326,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='hourly-holder'>
          <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[12])}></img>
+          )}
         12PM
       </div>
            {weather&&(
@@ -326,7 +340,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
 
       <div className='hourly-holder'>
           <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[15])}></img>
+          )}
         3PM
       </div>
             
@@ -338,7 +354,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='hourly-holder'>
           <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[18])}></img>
+          )}
         6PM
       </div>
             
@@ -350,7 +368,9 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
       </div>
       <div className='hourly-holder'>
          <div className='f'>
-      <img src={sunny}></img>
+       {weather&&(
+          <img src={getWeatherImg(weather.hourly.weathercode[21])}></img>
+          )}
         9PM
       </div>   
             
