@@ -1,5 +1,7 @@
 import { getWeatherImg } from '../utils/GetWeatherImg'
-
+import { getWeekDay } from '../utils/GetWeekDay';
+import { getMinTemp } from '../utils/GetMinTemp';
+import { getMaxTemp } from '../utils/GetMaxTemp';
 function LeftPart({
   city,
   weather,
@@ -8,36 +10,6 @@ function LeftPart({
   ismm,
   background,
 }) {
-
-  
-  function getWeekDay(index) {
-    if (!weather) return "";
-    const dateStr = weather.hourly.time[index];
-    const date = dateStr.split("T")[0];
-    return new Date(date).toLocaleDateString("en-US", { weekday: "short" });
-  }
-
-  function getMinTemp(firstindex, lastindex) {
-    if (!weather) return 0;
-    const temparray = [];
-    for (let i = firstindex; i < lastindex; i++) {
-      temparray.push(weather.hourly.temperature_2m[i]);
-    }
-    const mintemp = Math.min(...temparray);
-    return mintemp;
-  }
-
-  function getMaxTemp(firstindex, lastindex) {
-    if (!weather) return 0;
-    const temparray = [];
-    for (let i = firstindex; i < lastindex; i++) {
-      temparray.push(weather.hourly.temperature_2m[i]);
-    }
-    const maxtemp = Math.max(...temparray);
-    return maxtemp;
-  }
-  
-
   if (!weather) return null
 
   return (
@@ -108,67 +80,67 @@ function LeftPart({
       <div id='daily-forecast'>
         {/* Day 0 (Today) */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(0)}</p>
+          <p>{weather && getWeekDay(weather,0)}</p>
           {weather && (
             <img src={getWeatherImg(weather.daily.weathercode[0])} alt="day"></img>
           )}
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(0, 24)}°` : `${((weather && getMaxTemp(0, 24) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(0, 24)}°` : `${((weather && getMinTemp(0, 24) * 9) / 5 + 32).toFixed(0)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,0, 24)}°` : `${((weather && getMaxTemp(weather,0, 24) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,0, 24)}°` : `${((weather && getMinTemp(weather,0, 24) * 9) / 5 + 32).toFixed(0)}°`}</p>
           </div>
         </div>
         {/* Day 1 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(24)}</p>
+          <p>{weather && getWeekDay(weather,24)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[1])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(24, 48)}°` : `${((weather && getMaxTemp(24, 48) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(24, 48)}°` : `${((weather && getMinTemp(24, 48) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,24, 48)}°` : `${((weather && getMaxTemp(weather,24, 48) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,24, 48)}°` : `${((weather && getMinTemp(weather,24, 48) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
         {/* Day 2 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(48)}</p>
+          <p>{weather && getWeekDay(weather,48)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[2])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(48, 72)}°` : `${((weather && getMaxTemp(48, 72) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(48, 72)}°` : `${((weather && getMinTemp(48, 72) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,48, 72)}°` : `${((weather && getMaxTemp(weather,48, 72) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,48, 72)}°` : `${((weather && getMinTemp(weather,48, 72) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
         {/* Day 3 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(72)}</p>
+          <p>{weather && getWeekDay(weather,72)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[3])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(72, 96)}°` : `${((weather && getMaxTemp(72, 96) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(72, 96)}°` : `${((weather && getMinTemp(72, 96) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,72, 96)}°` : `${((weather && getMaxTemp(weather,72, 96) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,72, 96)}°` : `${((weather && getMinTemp(weather,72, 96) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
         {/* Day 4 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(96)}</p>
+          <p>{weather && getWeekDay(weather,96)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[4])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(96, 120)}°` : `${((weather && getMaxTemp(96, 120) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(96, 120)}°` : `${((weather && getMinTemp(96, 120) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,96, 120)}°` : `${((weather && getMaxTemp(weather,96, 120) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,96, 120)}°` : `${((weather && getMinTemp(weather,96, 120) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
         {/* Day 5 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(120)}</p>
+          <p>{weather && getWeekDay(weather,120)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[5])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(120, 144)}°` : `${((weather && getMaxTemp(120, 144) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(120, 144)}°` : `${((weather && getMinTemp(120, 144) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,120, 144)}°` : `${((weather && getMaxTemp(weather,120, 144) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,120, 144)}°` : `${((weather && getMinTemp(weather,120, 144) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
         {/* Day 6 */}
         <div className='day-holder'>
-          <p>{weather && getWeekDay(144)}</p>
+          <p>{weather && getWeekDay(weather,144)}</p>
           <img src={getWeatherImg(weather.daily.weathercode[6])} alt="day"></img>
           <div className="daily-degrees">
-            <p>{iscelsius ? `${weather && getMaxTemp(144, 168)}°` : `${((weather && getMaxTemp(144, 168) * 9) / 5 + 32).toFixed(1)}°`}</p>
-            <p>{iscelsius ? `${weather && getMinTemp(144, 168)}°` : `${((weather && getMinTemp(144, 168) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMaxTemp(weather,144, 168)}°` : `${((weather && getMaxTemp(weather,144, 168) * 9) / 5 + 32).toFixed(1)}°`}</p>
+            <p>{iscelsius ? `${weather && getMinTemp(weather,144, 168)}°` : `${((weather && getMinTemp(weather,144, 168) * 9) / 5 + 32).toFixed(1)}°`}</p>
           </div>
         </div>
       </div>
