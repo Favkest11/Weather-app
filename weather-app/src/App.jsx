@@ -1,14 +1,12 @@
 import { useState,useEffect} from 'react'
 import Search from './components/Search'
 import LeftPart from './components/LeftPart'
-import { getWeatherImg } from './utils/GetWeatherImg'
+import Hourly from './components/Hourly'
 import logo from './images/logo.svg'
 import search from './images/icon-search.svg'
 import background from './images/bg-today-large.svg'
 import units from './images/icon-units.svg'
 import dropdown from './images/icon-dropdown.svg'
-
-
 import './App.css'
 
 function App() {
@@ -49,18 +47,16 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     getData();
     
   },[city])
-  /* Functions*/
- 
+  /* Function*/
     const toggleUnitsDropdown = () => {
     setIsVisible(prev => !prev);
   };
-  
     if (!weather) {
   return <p>Loading...</p>;
 }
   return(
     
-    <div>
+    <div className='app-wrapper'>
     
       
       <div id="top-part">
@@ -96,7 +92,7 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
   searchIcon={search}
       />
       <div id="main-container">
-        {/* Today Card */}
+        {/* Today card + daily + conditions */}
     <LeftPart
     city={city}
     weather={weather}
@@ -107,130 +103,13 @@ const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitu
     />
     <div id="right-part">
       {/* Hourly */}
-    <div id="hourly-forecast">
-      <div id="head4-select-holder">
-      <h4>Hourly forecast</h4>
-      </div>
-      <div id="main-hourly-holder">
-      <div className='hourly-holder'>
-        <div className='f'>
-          {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[0])}></img>
-          )}
-      
-        12AM
-      </div>
-      {weather&&(
-        <div>
-        <p>{iscelsius ? `${weather.hourly.temperature_2m[0]}°` : `${((weather.hourly.temperature_2m[0]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      
-      </div>
-      <div className='hourly-holder'>
-          <div className='f'>
-      {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[3])}></img>
-          )}
-        3AM
-      </div>
-       {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[3]}°` : `${((weather.hourly.temperature_2m[3]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-        
-        </div> 
-      <div className='hourly-holder'>
-          <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[6])}></img>
-          )}
-        6AM
-      </div>
-        
-         {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[6]}°` : `${((weather.hourly.temperature_2m[6]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      </div>
-      <div className='hourly-holder'>
-          <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[9])}></img>
-          )}
-        9AM
-      </div>
-         {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[9]}°` : `${((weather.hourly.temperature_2m[9]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      </div>
-      <div className='hourly-holder'>
-         <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[12])}></img>
-          )}
-        12PM
-      </div>
-           {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[12]}°` : `${((weather.hourly.temperature_2m[12]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      </div>
-
-      <div className='hourly-holder'>
-          <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[15])}></img>
-          )}
-        3PM
-      </div>
-            
-             {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[15]}°` : `${((weather.hourly.temperature_2m[15]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      </div>
-      <div className='hourly-holder'>
-          <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[18])}></img>
-          )}
-        6PM
-      </div>
-            
-             {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[18]}°` : `${((weather.hourly.temperature_2m[18]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}
-      </div>
-      <div className='hourly-holder'>
-         <div className='f'>
-       {weather&&(
-          <img src={getWeatherImg(weather.hourly.weathercode[21])}></img>
-          )}
-        9PM
-      </div>   
-            
-             {weather&&(
-        <div>
-          <p>{iscelsius ? `${weather.hourly.temperature_2m[21]}°` : `${((weather.hourly.temperature_2m[21]*9)/5+32).toFixed(1)}°`}</p>
-        </div>
-      )}     
-      </div>
-      </div>
-      
-    </div>
+    <Hourly
+      weather={weather}
+      iscelsius={iscelsius}
+      />
     </div>
     </div>
 </div>
   )
 }
-
 export default App
